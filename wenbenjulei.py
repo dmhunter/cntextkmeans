@@ -18,7 +18,7 @@ import time
 import random
 import numpy as np
 def getjsonlist(n):
-#利用第三方API提供商聚合数据中的微信热门精选API，抓取微信热门文章的相关信息（包括文章URL等信息），以json列表格式返回数据
+#利用百度APIStore中的微信热门精选API，抓取1000篇文章的相关信息（包括文章URL等信息），以json列表格式返回数据
 	apikey='6e9066524df3ab1977f850637f1f8b5f'
 	apiurl='http://v.juhe.cn/weixin/query'
 	header={'apikey':apikey}
@@ -121,8 +121,9 @@ def tfidf(basedata):
 	for i in range(len(worddocs)):
 		idfs.append(math.log(float(len(basedata))/(worddocs[i]+1)))
 	for i in range(len(basedata)):
+		b=sum(basedata[i])
 		for j in range(len(basedata[0])):
-			basedata[i][j]*=idfs[j]/max(basedata[i])
+			basedata[i][j]*=float(idfs[j])/(b+1)
 	return basedata
 def topwords(idfswordlist,n=10):
 #返回一个列表中前10大元素以及其角标,如果前10大元素中有小于０的元素，则列表可不用达到10个元素
@@ -305,8 +306,8 @@ def clusterwords(clusterresult,basedata,fencidictlist,topwordsfun=topwords,lists
 start=time.clock()
 #json=getjsonlist(10)
 #writejsoninfo(json)
-#f=getwxtxt(json)
-b=docfenci(os.listdir(r'微信精选文章/'))　　＃注意此处由于微信封锁ＩＰ,只好把前几句程序注释起来，然后用本地文件进行测试。
+#f=getwxtxt(json)  #ip被微信封杀，这里至对之前抓取的一部分（接近400篇）文档进行聚类分析,因此前面这几行程序就注释掉，不运行
+b=docfenci(os.listdir(r'微信精选文章/'))
 basedata=tfidf(wordfreq(b[0],b[1]))
 c=savetopfeaturewords(basedata,b[1])
 d=docfeature(c,basedata,featurewords(c))
@@ -317,7 +318,7 @@ features=clusterwords(e,basedata,b[1])
 for i in features:
 	for j in i:
 		print j	,
-	print '\n ******************************************************\n'
+	print '\n******************************************************\n'
 end=time.clock()
 print '运行时间:',end-start,'秒'
 print 'CurrentTime:',
