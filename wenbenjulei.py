@@ -18,7 +18,7 @@ import time
 import random
 import numpy as np
 def getjsonlist(n):
-#利用百度APIStore中的微信热门精选API，抓取1000篇文章的相关信息（包括文章URL等信息），以json列表格式返回数据
+#利用第三方api提供商聚合数据的免费微信热门精选API，抓取1000篇文章的相关信息（包括文章URL等信息），以json列表格式返回数据
 	apikey='6e9066524df3ab1977f850637f1f8b5f'
 	apiurl='http://v.juhe.cn/weixin/query'
 	header={'apikey':apikey}
