@@ -303,23 +303,28 @@ def clusterwords(clusterresult,basedata,fencidictlist,topwordsfun=topwords,lists
 	return 	clusterfeaturewords		
 
 
-start=time.clock()
-#json=getjsonlist(10)
-#writejsoninfo(json)
-#f=getwxtxt(json)  #ip被微信封杀，这里至对之前抓取的一部分（接近400篇）文档进行聚类分析,因此前面这几行程序就注释掉，不运行
-b=docfenci(os.listdir(r'微信精选文章/'))
-basedata=tfidf(wordfreq(b[0],b[1]))
-c=savetopfeaturewords(basedata,b[1])
-d=docfeature(c,basedata,featurewords(c))
-e=tablekmeans(d,10)
-print e
-print "========================================================\n"
-features=clusterwords(e,basedata,b[1])
-for i in features:
-	for j in i:
-		print j	,
-	print '\n******************************************************\n'
-end=time.clock()
-print '运行时间:',end-start,'秒'
-print 'CurrentTime:',
-print time.strftime('%Y-%m-%d %I:%M:%S', time.localtime())
+def main():
+#主函数体
+	start=time.clock()
+	#json=getjsonlist(10)
+	#writejsoninfo(json)
+	#f=getwxtxt(json)  #ip被微信封杀，这里至对之前抓取的一部分（接近400篇）文档进行聚类分析,因此前面这几行程序就注释掉，不运行
+	b=docfenci(os.listdir(r'微信精选文章/'))
+	basedata=tfidf(wordfreq(b[0],b[1]))
+	c=savetopfeaturewords(basedata,b[1])
+	d=docfeature(c,basedata,featurewords(c))
+	e=tablekmeans(d,10)
+	print e
+	print "========================================================\n"
+	features=clusterwords(e,basedata,b[1])
+	for i in features:
+		for j in i:
+			print j	,
+		print '\n******************************************************\n'
+	end=time.clock()
+	print '运行时间:',end-start,'秒'
+	print 'CurrentTime:',
+	print time.strftime('%Y-%m-%d %I:%M:%S', time.localtime())
+
+if __name__=="__main__":
+	main()
